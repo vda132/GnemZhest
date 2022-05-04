@@ -1,0 +1,122 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    padding-top: 5%;
+    margin: auto;
+  }
+  
+.loginClass {
+    justify-content: center;
+}
+/* 
+.form-group {
+    margin-top: 10px;
+} */
+
+
+.mainText {
+    margin-top: 25px;
+    padding-left: 25px;
+    margin-left: 25px;
+    text-align: left;
+    position: static;
+    padding-bottom: 10px;
+}
+
+/* .form-group-password {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.form-control {
+    width: 75%;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+.productList {
+    justify-content: center;
+    display: flex;
+}
+
+.productCard {
+    justify-content: center;
+    position: static;
+    padding: 10px;
+    padding-top: 10px;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+.productCard:hover {
+    text-decoration: underline;
+}
+
+.buyButton {
+    margin-right: 10px;
+    justify-content: center;
+}
+
+.carousel {
+    padding-top: 25px;
+    margin-top: 100px;
+    margin: auto;
+    justify-content: center;
+    height: 500px;
+}
+
+.carouselImage {
+    margin: auto;
+}
+
+.h3 {
+    color: aliceblue;
+}
+.carousel-dark .carousel-caption {
+    color: #fff;
+}
+.carousel-indicators{ 
+    color: #fff;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    color: black;
+}
+
+.PhoneInput {
+    width: 100%;
+    margin: auto;
+}
+
+
+.PhoneInputCountry {
+    margin: auto;
+}
+
+.PhoneInputCountryIcon {
+    width: 10%;
+}
+
+.PhoneInputCountrySelect {
+    margin: auto;
+}
+
+.PhoneInputInput {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #43596e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
