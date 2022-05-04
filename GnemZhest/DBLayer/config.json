@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnectionVadim": "Data Source=.\\SQLEXPRESS;Initial Catalog=ZhestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+  "Key": "HtDxTramParamPwCqLRtd5-VJ4WZ8zJHMmoow7vu3y5fZnV*eeecGbNN+xMfxcAW7GS7nza3tAZwmAXgng6eaBfHeS"
+}
