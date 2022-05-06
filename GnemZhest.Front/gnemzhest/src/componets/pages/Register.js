@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import validator from 'validator';
 import Input from 'react-phone-number-input/input'
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+
 import "../pages/styles.css";
 
 function Register() {
@@ -13,6 +15,8 @@ function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
   
+    const auth = useAuth();
+
     let navigate = useNavigate();
   
     const handleValidation = async (event) => {
@@ -68,7 +72,8 @@ function Register() {
       e.preventDefault();
 
       if(await handleValidation()){
-          const response = await fetch(`https://localhost:5001/api/Users/register`,{
+        ///register
+          const response = await fetch(`https://localhost:5001/api/Users/register`, {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -84,8 +89,8 @@ function Register() {
 
           const data = await response.json();
 
-          console.log(data.status);
           if (data.status === 200) {
+            //login
             const response = await fetch(`https://localhost:5001/api/Users/login`, {
               method: 'POST',
               headers: {'Content-Type':'application/json'},
@@ -96,10 +101,24 @@ function Register() {
             })
 
             const data = await response.json();
-            console.log(data);
-            //navigate(`/`);
+            
+            //authorization
+            const authResponse = await fetch(`https://localhost:5001/api/Authorization/auth/me`, {
+              method: 'GET',
+              headers :{
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${data.token}`
+              }
+            })
+            
+            const userData = await authResponse.json();
+            
+            auth.setToken(data.token);
+            auth.setUser(userData);
+            navigate(`/`);
+          } else {
+            setError(data.message);
           }
-          setError(data.message);
       }
   };
   

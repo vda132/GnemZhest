@@ -1,9 +1,11 @@
 
 
 .main {
-  padding-top: 15px;
   width: 80%;
-  margin: auto;
+  margin-top: 1%;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: auto;
   border-radius: 20px;
   background-color: aliceblue;
   padding-bottom: 5%;

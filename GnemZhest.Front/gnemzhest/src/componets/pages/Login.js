@@ -3,20 +3,23 @@ import validator from 'validator';
 import "../pages/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [error, setError] = useState("");
+
+  const auth = useAuth();
 
   let navigate = useNavigate();
 
   const handleValidation = (event) => {
     let formIsValid = true;
 
-    if (!validator.isEmail(email)) {
+    if (login.length === 0) {
       formIsValid = false;
-      setError("Email Not Valid");
+      setError("Login Not Valid");
       return false;
     } else {
       setError("");
@@ -36,11 +39,37 @@ function Login() {
     return formIsValid;
   };
 
-  const loginSubmit = (e) => {
+  const loginSubmit = async (e) => {
     e.preventDefault();
     if(handleValidation()){
-        console.log(email, password);
+      const response = await fetch(`https://localhost:5001/api/Users/login`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          "login":login,
+          "password":password
+        })
+      })
+
+      const data = await response.json();
+      
+      if (data.status === 200) {
+        //authorization
+        const authResponse = await fetch(`https://localhost:5001/api/Authorization/auth/me`, {
+          method: 'GET',
+          headers :{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${data.token}`
+          }
+        })
+        const userData = await authResponse.json();
+            
+        auth.setToken(data.token);
+        auth.setUser(userData);
         navigate(`/`);
+      } else {
+        setError(`Login or password is incorrect`);
+      }
     }
 };
   return (
@@ -50,16 +79,16 @@ function Login() {
           <div className="col-md-4">
             <form id="loginform" onSubmit={loginSubmit}>
               <div className="form-group">
-                <label>Email address</label>
+                <label>Login</label>
                 <input
-                  type="email"
+                  type="login"
                   className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  id="LoginInput"
+                  name="LoginInput"
+                  aria-describedby="loginHelp"
+                  placeholder="Enter login"
+                  value={login}
+                  onChange={(event) => setLogin(event.target.value)}
                 />
               </div>
               <div className="form-group-password">

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, Container, Row, Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 import './styles.css'
     
 
 function Home() {
-
     const [products, setProducts] = useState();
     const [dataIsLoading, setDataIsLoading] = useState(true);
+
+    const auth = useAuth();
 
     const getData = () => {
         fetch(`https://localhost:5001/api/goods`)
@@ -56,7 +58,8 @@ function Home() {
                             <h5>
                                 {product.price} грн
                             </h5>
-                            <Button variant="primary" as={Link} to="/register">Buy</Button>
+                        {auth.isLoaded && auth.user?
+                            <Button variant="primary" as={Link} to="/register">Buy</Button> : null}
                         </Card.Body>
                     </Card>
                     )}

@@ -1,15 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
  
 function AuthProvider(props) {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [user, setUserData] = useState(null);
+    const [user, setUser] = useState(null);
     const [token, setTokenData] = useState(null);
-
-    const setUser = useCallback((tokenData) => {
-      //todo: call api to get user data
-    });
-
+    let navigate = useNavigate();
     const setToken = useCallback((tokenData) => {
         setTokenData(tokenData);
 
@@ -23,15 +20,26 @@ function AuthProvider(props) {
     const logOut = useCallback(() => {
         setUser(null);
         setToken(null);
+        navigate('/login'); 
     }, [setToken]);
     
     const loadData = useCallback(async () =>{
         const tokenData = localStorage.getItem("token");
         setTokenData(tokenData);
-        //todo: get user from api
+        
         try {
-            //const { data };
-            //setUserData(data);
+          if(tokenData) {
+            const authResponse = await fetch(`https://localhost:5001/api/Authorization/auth/me`, {
+              method: 'GET',
+              headers :{
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${tokenData}`
+              }
+            })
+            
+            const userData = await authResponse.json();
+            setUser(userData)
+          }
         } catch {
             setToken(null);
         } finally {
