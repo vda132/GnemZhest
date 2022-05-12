@@ -3,11 +3,12 @@
     text-align: center;
     padding-top: 5%;
     margin: auto;
-  }
-  
+}
+
 .loginClass {
     justify-content: center;
 }
+
 /* 
 .form-group {
     margin-top: 10px;
@@ -76,14 +77,17 @@
 .h3 {
     color: aliceblue;
 }
+
 .carousel-dark .carousel-caption {
     color: #fff;
 }
-.carousel-indicators{ 
+
+.carousel-indicators {
     color: #fff;
 }
 
-.carousel-control-next, .carousel-control-prev {
+.carousel-control-next,
+.carousel-control-prev {
     color: black;
 }
 

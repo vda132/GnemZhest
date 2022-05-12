@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import { useParams } from "react-router-dom";
 import { Zoom } from 'react-slideshow-image';
 
-
-
 const images = [
-    "/images/IMG_3858-e1505404847545-768x1024-1.jpg",
-    "/logo512.png"
+  "/images/IMG_3858-e1505404847545-768x1024-1.jpg",
+  "/logo512.png"
 ];
 
 const zoomOutProperties = {
@@ -20,10 +18,10 @@ const zoomOutProperties = {
 
 const Slideshow = () => {
   return (
-    <div className="slide-container" style={{width:"70%", margin:"auto"}}>
+    <div className="slide-container" style={{ width: "70%", margin: "auto" }}>
       <Zoom {...zoomOutProperties}>
         {images.map((each, index) => (
-          <img key={index} src={each} style={{margin:"auto", width:"30%"}} />
+          <img key={index} src={each} style={{ margin: "auto", width: "30%" }} />
         ))}
       </Zoom>
     </div>
@@ -31,12 +29,13 @@ const Slideshow = () => {
 };
 
 function ProductPage() {
-    const {id} = useParams();
-        return (
-            <>
-            <h1>{id}</h1>
-            <Slideshow/>
-            </>
-        );
+  const { id } = useParams();
+  return (
+    <>
+      <h1>{id}</h1>
+      <Slideshow />
+    </>
+  );
 }
+
 export default ProductPage;

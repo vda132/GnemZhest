@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import validator from 'validator';
 import "../pages/styles.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { Button } from "react-bootstrap";
+
+
 
 function Login() {
   const [password, setPassword] = useState("");
@@ -27,13 +28,13 @@ function Login() {
     }
 
     if (password.match(/.{8,22}/)) {
-        setError("");
-        formIsValid = true;
+      setError("");
+      formIsValid = true;
     } else {
-        formIsValid = false;
-        setError(
+      formIsValid = false;
+      setError(
         "Password should contain letters and length must best min 8 characters"
-        );
+      );
     }
 
     return formIsValid;
@@ -41,29 +42,30 @@ function Login() {
 
   const loginSubmit = async (e) => {
     e.preventDefault();
-    if(handleValidation()){
+
+    if (handleValidation()) {
       const response = await fetch(`https://localhost:5001/api/Users/login`, {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          "login":login,
-          "password":password
+          "login": login,
+          "password": password
         })
       })
 
       const data = await response.json();
-      
+
       if (data.status === 200) {
         //authorization
         const authResponse = await fetch(`https://localhost:5001/api/Authorization/auth/me`, {
           method: 'GET',
-          headers :{
-            'Content-Type':'application/json',
-            'Authorization':`Bearer ${data.token}`
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data.token}`
           }
         })
         const userData = await authResponse.json();
-            
+
         auth.setToken(data.token);
         auth.setUser(userData);
         navigate(`/`);
@@ -71,7 +73,8 @@ function Login() {
         setError(`Login or password is incorrect`);
       }
     }
-};
+  };
+
   return (
     <div className="App">
       <div className="container">
@@ -102,17 +105,21 @@ function Login() {
                   onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
-              <button type="submit" className="btn btn-primary" style={{marginTop:"5%"}}>
+              <Button type="submit" className="btn btn-primary" style={{ marginTop: "5%" }}>
                 Login
-              </button>
-            </form>
-          </div>
-          <small id="error" className="text-danger form-text">
+              </Button>
+              <div>
+                <small id="error" className="text-danger form-text">
                   {error}
                 </small>
+              </div>
+            </form>
+            <Link to="/register">Create account</Link>
+          </div>
         </div>
-      </div>      
+      </div>
     </div>
   );
 }
+
 export default Login;
