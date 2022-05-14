@@ -16,7 +16,6 @@ function Home() {
         fetch(`https://localhost:5001/api/goods`)
             .then((res) => res.json())
             .then((res) => {
-                console.log("here");
                 setProducts(res);
                 setDataIsLoading(false);
             })
