@@ -11,7 +11,7 @@ public partial class ZhestContext : DbContext
     public ZhestContext() : base()
     {
         var config = new ConfigurationBuilder()
-            .AddJsonFile("D:\\GnemZhest\\GnemZhest\\DBLayer\\config.json")
+            .AddJsonFile("D:\\GnemZhest.Site\\GnemZhest\\DBLayer\\config.json")
             .Build();
 
         this.connectionString = config["ConnectionStrings:DefaultConnectionVadim"];
@@ -20,7 +20,6 @@ public partial class ZhestContext : DbContext
     public ZhestContext(string connectionString) : base() =>
         this.connectionString=connectionString;
 
-    public DbSet<Cart> Carts { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Good> Goods { get; set; }
     public DbSet<User> Users { get; set; }
@@ -32,51 +31,8 @@ public partial class ZhestContext : DbContext
     {
         modelBuilder.Entity<Good>(this.GoodConfigure);
         modelBuilder.Entity<User>(this.UserConfigure);
-        modelBuilder.Entity<Cart>(this.CartConfigure);
         modelBuilder.Entity<Order>(this.OrderConfigure);
         this.OnModelCreatingPartial(modelBuilder);
-    }
-
-    private void CartConfigure(EntityTypeBuilder<Cart> builder)
-    {
-        builder.ToTable("Cart")
-            .HasKey(x => x.Id)
-            .HasName("Cart_PK");
-
-        builder.Property(x => x.Id)
-            .HasColumnType("int")
-            .ValueGeneratedOnAdd()
-            .HasColumnName("Id");
-
-        builder.Property(x => x.Quantity)
-            .HasColumnType("int")
-            .HasColumnName("Quantity");
-
-        builder.Property(x => x.IsOrdered)
-            .HasColumnType("bit")
-            .HasColumnName("IsOrdered");
-
-        builder.Property(x => x.UserId)
-            .HasColumnType("int")
-            .HasColumnName("UserId");
-
-        builder.Property(x => x.GoodId)
-            .HasColumnType("int")
-            .HasColumnName("GoodId");
-
-        builder.HasOne(x => x.User)
-            .WithMany(x => x.Carts)
-            .HasForeignKey(x => x.UserId)
-            .HasPrincipalKey(x => x.Id)
-            .OnDelete(DeleteBehavior.NoAction)
-            .HasConstraintName("Cart_UserId_FK");
-
-        builder.HasOne(x => x.Good)
-            .WithMany(x => x.Carts)
-            .HasForeignKey(x => x.GoodId)
-            .HasPrincipalKey(x => x.Id)
-            .OnDelete(DeleteBehavior.NoAction)
-            .HasConstraintName("Cart_GoodId_FK");
     }
 
     private void GoodConfigure(EntityTypeBuilder<Good> builder)
@@ -114,9 +70,9 @@ public partial class ZhestContext : DbContext
            .HasColumnType("varchar(max)")
            .HasColumnName("Image3");
 
-        builder.HasMany(x => x.Carts)
+        builder.HasMany(x => x.Orders)
             .WithOne(x => x.Good)
-            .HasForeignKey(x => x.GoodId)
+            .HasForeignKey(x => x.GoodId)   
             .HasPrincipalKey(x => x.Id)
             .OnDelete(DeleteBehavior.NoAction);
     }
@@ -136,22 +92,33 @@ public partial class ZhestContext : DbContext
             .HasColumnType("varchar(max)")
             .HasColumnName("OrderAdress");
 
-        builder.Property(x => x.IsSend)
-            .HasColumnType("bit")
-            .HasColumnName("IsSend");
-
         builder.Property(x => x.City)
             .HasColumnType("varchar(max)")
             .HasColumnName("City");
 
-        builder.Property(x => x.CartId)
+        builder.Property(x => x.Ammount)
             .HasColumnType("int")
-            .HasColumnName("CartId");
+            .HasColumnName("Ammount");
 
-        builder.HasOne(x => x.Cart)
-            .WithOne(x => x.Order)
-            .HasForeignKey<Order>(x => x.CartId)
-            .HasConstraintName("Order_CartId_FK");
+        builder.Property(x => x.GoodId)
+            .HasColumnType("int")
+            .HasColumnName("GoodId");
+
+        builder.Property(x => x.UserId)
+            .HasColumnName("UserId")
+            .HasColumnType("int");
+
+        builder.HasOne(x => x.Good)
+            .WithMany(x => x.Orders)
+            .HasForeignKey(x => x.GoodId)
+            .OnDelete(DeleteBehavior.NoAction)
+            .HasConstraintName("Order_GoodId_FK");
+
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.Orders)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.NoAction)
+            .HasConstraintName("Order_User_FK");
     }
 
     private void UserConfigure(EntityTypeBuilder<User> builder)
@@ -193,11 +160,10 @@ public partial class ZhestContext : DbContext
             .HasColumnType("varchar(max)")
             .HasColumnName("Role");
 
-        builder.HasMany(x => x.Carts)
+        builder.HasMany(x => x.Orders)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
             .HasPrincipalKey(x => x.Id)
-            .HasConstraintName("User_Cart_Id")
             .OnDelete(DeleteBehavior.NoAction);
     }
 

@@ -50,16 +50,18 @@ function Home() {
                     <Container className="productList">
                         <Row>
                             {products.map(product =>
-                                <Card className="productCard" style={{ width: '18rem' }} xs={12} sm={6} md={3} key={product.id} as={Link} to={`/products/${product.id}`}>
-                                    <Card.Img variant="top" src={product.image1} />
+                                <Card className="productCard" style={{ width: '18rem' }} xs={12} sm={6} md={3} key={product.id}>
+                                    <Link to={`/products/${product.id}`} className="productCartBody">
+                                    <Card.Img variant="top" src={product.image1}/>
                                     <Card.Body>
                                         <Card.Title>{product.name}</Card.Title>
                                         <h5>
                                             {product.price} грн
                                         </h5>
-                                        {auth.isLoaded && auth.user ?
-                                            <Button variant="primary" as={Link} to="/register"> Buy </Button> : null}
                                     </Card.Body>
+                                    </Link>
+                                    {auth.isLoaded && auth.user ?
+                                        <Button className="buyButton"  variant="success" onClick={() => auth.addItemToCart(product)}> Buy </Button> : null}
                                 </Card>
                             )}
                         </Row>

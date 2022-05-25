@@ -15,12 +15,7 @@ public class BaseController<TModel> : ControllerBase where TModel : DBLayer.Mode
     [HttpPost]
     public virtual async Task<JsonResult> Post([FromBody] TModel model)
     {
-        var result = "Added successfully!";
-
-        if(await this.logic.AddAsync(model))
-            return new JsonResult(result);
-
-        result = "Failed";
+        var result = await this.logic.AddAsync(model);
 
         return new JsonResult(result);
     }

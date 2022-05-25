@@ -4,7 +4,7 @@
 
 namespace DBLayer.Migrations
 {
-    public partial class CreateContext : Migration
+    public partial class cartdelete : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,9 @@ namespace DBLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "varchar(max)", nullable: false),
+                    Image1 = table.Column<string>(type: "varchar(max)", nullable: false),
+                    Image2 = table.Column<string>(type: "varchar(max)", nullable: false),
+                    Image3 = table.Column<string>(type: "varchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "money", nullable: false),
                     IsAvaliable = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -43,104 +46,47 @@ namespace DBLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Photo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "Int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhotoPath = table.Column<string>(type: "varchar(max)", nullable: false),
-                    GoodId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("Photo_PK", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Photo_Good_GoodId",
-                        column: x => x.GoodId,
-                        principalTable: "Good",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cart",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    GoodId = table.Column<int>(type: "int", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    IsOrdered = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("Cart_PK", x => x.Id);
-                    table.ForeignKey(
-                        name: "Cart_GoodId_FK",
-                        column: x => x.GoodId,
-                        principalTable: "Good",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "Cart_UserId_FK",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    GoodId = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<string>(type: "varchar(max)", nullable: true),
                     OrderAdress = table.Column<string>(type: "varchar(max)", nullable: false),
-                    IsSend = table.Column<bool>(type: "bit", nullable: false),
-                    CartId = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "varchar(max)", nullable: true)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("Order_PK", x => x.Id);
                     table.ForeignKey(
-                        name: "Order_CartId_FK",
-                        column: x => x.CartId,
-                        principalTable: "Cart",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "Order_GoodId_FK",
+                        column: x => x.GoodId,
+                        principalTable: "Good",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "Order_User_FK",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_GoodId",
-                table: "Cart",
-                column: "GoodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cart_UserId",
-                table: "Cart",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_CartId",
+                name: "IX_Order_GoodId",
                 table: "Order",
-                column: "CartId",
-                unique: true);
+                column: "GoodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photo_GoodId",
-                table: "Photo",
-                column: "GoodId");
+                name: "IX_Order_UserId",
+                table: "Order",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Order");
-
-            migrationBuilder.DropTable(
-                name: "Photo");
-
-            migrationBuilder.DropTable(
-                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "Good");

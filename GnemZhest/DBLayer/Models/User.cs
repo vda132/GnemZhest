@@ -8,5 +8,5 @@ public class User : ModelBase
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
-    public IReadOnlyCollection<Cart> Carts { get; set; } = new List<Cart>();
+    public IReadOnlyCollection<Order> Orders { get; set; } = new List<Order>();
 }

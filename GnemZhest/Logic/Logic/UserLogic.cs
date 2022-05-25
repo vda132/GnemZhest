@@ -35,10 +35,10 @@ internal class UserLogic : Logic<DBLayer.Models.User>, IUserLogic
         return user;
     }
 
-    public async Task<RegistrationResultDTO> RegisterAsync(UserRegisterDTO dto)
+    public async Task<ResultDTO> RegisterAsync(UserRegisterDTO dto)
     {
         if (dto is null)
-            return new RegistrationResultDTO
+            return new ResultDTO
             {
                 Status = 500,
                 Message = "Please input all fields"
@@ -47,7 +47,7 @@ internal class UserLogic : Logic<DBLayer.Models.User>, IUserLogic
         var user = await this.provider.GetByLoginAsync(dto.Login);
 
         if (user is not null)
-            return new RegistrationResultDTO
+            return new ResultDTO
             {
                 Status = 500,
                 Message = "The login is already exists"
@@ -58,13 +58,13 @@ internal class UserLogic : Logic<DBLayer.Models.User>, IUserLogic
         var userModel = this.GetUserFromDTO(dto);
         
         if (await this.provider.AddAsync(userModel))
-            return new RegistrationResultDTO
+            return new ResultDTO
             {
                 Status = 200,
                 Message = "Ok"
             };
 
-        return new RegistrationResultDTO
+        return new ResultDTO
         {
             Status = 500,
             Message = "Something went wrong"

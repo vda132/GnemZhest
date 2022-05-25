@@ -5,8 +5,11 @@ export const AuthContext = createContext({
   isAdmin: false,
   user: null,
   token: null,
+  cartItems:[],
   setUser: () => { },
   setToken: () => { },
   addItemToCart: () => { },
+  decreaseItemFromCart: () => { },
+  removeItemFromCart: () => { },
   logOut: () => { }
 });

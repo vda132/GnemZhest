@@ -8,7 +8,6 @@ public class Host : DBLayer.Host
 {
     public override bool ConfigureServices(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<ICartLogic, CartLogic>();
         serviceCollection.AddSingleton<IGoodLogic, GoodLogic>();
         serviceCollection.AddSingleton<IOrderLogic, OrderLogic>();
         serviceCollection.AddSingleton<IUserLogic, UserLogic>();

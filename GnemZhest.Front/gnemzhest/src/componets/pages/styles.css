@@ -52,8 +52,11 @@
     margin-bottom: 15px;
     text-decoration: none;
 }
+.productCartBody { 
+    text-decoration: none;
+}
 
-.productCard:hover {
+.productCartBody:hover {
     text-decoration: underline;
 }
 
@@ -123,4 +126,9 @@
     appearance: none;
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.buyButton:hover {
+    text-decoration: underline;
+    text-decoration-color: white;
 }

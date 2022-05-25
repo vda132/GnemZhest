@@ -59,8 +59,9 @@ public class OrderProvider : Provider, IOrderProvider
             return false;
 
         order.OrderAdress = model.OrderAdress;
-        order.IsSend = model.IsSend;
-        order.CartId = model.CartId;
+        order.Price = model.Price;
+        order.UserId = model.UserId;
+        order.GoodId = model.GoodId;
         order.City = model.City;
 
         context.Orders.Update(order);
@@ -78,8 +79,6 @@ public class OrderProvider : Provider, IOrderProvider
             return false;
 
         if (string.IsNullOrEmpty(model.OrderAdress) ||
-            model.IsSend ||
-            model.CartId == 0 ||
             string.IsNullOrEmpty(model.City))
             return false;
 
@@ -88,7 +87,7 @@ public class OrderProvider : Provider, IOrderProvider
         if (await context.Orders.FindAsync(model.Id) is not null)
             return false;
         
-        if (await context.Carts.FindAsync(model.CartId) is null)
+        if (await context.Goods.FindAsync(model.GoodId) is null)
             return false;
           
         return true;

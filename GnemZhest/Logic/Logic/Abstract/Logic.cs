@@ -13,12 +13,27 @@ public class Logic<TModel> where TModel : ModelBase
     protected virtual Task<bool> BeforeAddAsync(TModel model) =>
         Task.FromResult(true);
 
-    public virtual async Task<bool> AddAsync(TModel model)
+    public virtual async Task<DTOs.ResultDTO> AddAsync(TModel model)
     {
-        if(await this.BeforeAddAsync(model))
-            return await this.provider.AddAsync(model);
-        
-        return false;
+        if (!await this.BeforeAddAsync(model))
+            return new DTOs.ResultDTO
+            {
+                Status = 500,
+                Message = "Wrong data"
+            };
+
+        if (await this.provider.AddAsync(model))
+            return new DTOs.ResultDTO
+            {
+                Status = 200,
+                Message = "Ok"
+            };
+
+        return new DTOs.ResultDTO
+        {
+            Message = "Something went wrong",
+            Status = 500
+        };
     }
 
     protected virtual Task<bool> BeforeUpdateAsync(TModel model) =>

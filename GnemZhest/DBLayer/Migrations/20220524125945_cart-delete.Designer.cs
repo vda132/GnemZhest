@@ -3,6 +3,7 @@ using DBLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DBLayer.Migrations
 {
     [DbContext(typeof(ZhestContext))]
-    partial class ZhestContextModelSnapshot : ModelSnapshot
+    [Migration("20220524125945_cart-delete")]
+    partial class cartdelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,14 +33,17 @@ namespace DBLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Image1")
+                        .IsRequired()
                         .HasColumnType("varchar(max)")
                         .HasColumnName("Image1");
 
                     b.Property<string>("Image2")
+                        .IsRequired()
                         .HasColumnType("varchar(max)")
                         .HasColumnName("Image2");
 
                     b.Property<string>("Image3")
+                        .IsRequired()
                         .HasColumnType("varchar(max)")
                         .HasColumnName("Image3");
 
@@ -69,10 +74,6 @@ namespace DBLayer.Migrations
                         .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Ammount")
-                        .HasColumnType("int")
-                        .HasColumnName("Ammount");
 
                     b.Property<string>("City")
                         .HasColumnType("varchar(max)")

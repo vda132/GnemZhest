@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DBLayer.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
@@ -10,4 +11,12 @@ public class OrdersController : BaseController<DBLayer.Models.Order>
 
     public OrdersController(Logic.Logic.IOrderLogic logic) : base(logic) =>
         this.logic = logic;
+
+    [HttpPost]
+    public override async Task<JsonResult> Post([FromBody] Order model)
+    {
+        var result = await this.logic.AddAsync(model);
+
+        return new JsonResult(result);
+    }
 }

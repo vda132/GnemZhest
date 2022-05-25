@@ -6,27 +6,32 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import ProductPage from "../pages/ProductPage";
 import Profile from "../pages/Profile";
+import Cart from "../pages/Cart";
 
 import '../navmenu/NavMenu.css'
 import useAuth from "../../hooks/useAuth";
 import GuestRoute from "./GuestRoute/GuestRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
+
 const NavMenu = () => {
   const auth = useAuth();
 
   return (
     <div>
-      <Navbar className="navMenu" collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar className="navMenu" collapseOnSelect expand="lg"  bg="dark" variant="dark">
         <Container>
           <Navbar.Brand as={Link} to="/">GnemZhest</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-
             </Nav>
             {auth.isLoaded && auth.user ?
               <Nav>
+                <Nav.Link style={{height:"40px", paddingTop:"0.6rem", paddingBottom:"0.6rem", display:"flex"}} as={Link} to={`/cart`}>
+                  <img src = 'icons//001-shopping-cart.png' height={20}></img>
+                  <p>({auth.cartAmmount})</p>
+                </Nav.Link>  
                 <NavDropdown title={`${auth.user.name} ${auth.user.surName}`}>
                   <NavDropdown.Item as={Link} to={`/profile`}>My profile</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">My orders</NavDropdown.Item>
@@ -64,6 +69,11 @@ const NavMenu = () => {
             <PrivateRoute>
               <Profile />
             </PrivateRoute>} />
+            <Route path={`/cart`} element={
+              <PrivateRoute>
+                <Cart />
+              </PrivateRoute>
+            }/>
         </Routes>
       </div>
     </div>

@@ -2,6 +2,6 @@
 
 public interface IAddableLogic<TModel> where TModel : DBLayer.Models.ModelBase
 {
-    Task<bool> AddAsync(TModel model);
+    Task<DTOs.ResultDTO> AddAsync(TModel model);
 }
 
